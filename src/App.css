@@ -1,3 +1,55 @@
-.App {
-  text-align: center;
+
+
+.form-control {
+    padding: 0.75rem 0;
+    margin: 1.2rem;
+    min-width: 40%;
+    border-bottom: 1px solid rgba(255, 51, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-control label {
+    margin-right: 0.75rem;
+    text-align: left;
+}
+
+/*orange - ff3300*/
+
+
+
+input[type="text"]{
+    box-shadow: none;
+    border: none;
+    line-height: 1.5rem;
+    font-size: 1.25rem;
+    font-family: Avenir, sans-serif;
+}
+
+.text-input{
+    flex-direction: row;
+    position: relative;
+}
+
+label{
+    flex: 1;
+    color: #777;
+}
+.label{
+    margin-bottom: 0.5rem;
+}
+.text-input input{
+    flex: 3;
+}
+.options-container{
+    margin-bottom: 0.25rem;
+}
+
+.errorMsg {
+    position: absolute;
+    right: 0.25rem;
+    bottom: 0;
+    color: red;
+    margin: 0;
 }

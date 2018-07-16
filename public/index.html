@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=no">
     <meta name="theme-color" content="#000000">
@@ -20,12 +20,109 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>Akila AI Onboarding</title>
-  </head>
-  <body>
+    <style>
+        @font-face {
+            font-family: 'Avenir';
+            src: url('fonts/AvenirLTStd-Light.otf') format('opentype');
+            font-weight: 300;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Avenir';
+            src: url('fonts/AvenirLTStd-Heavy.otf') format('opentype');
+            font-weight: 700;
+            font-style: normal;
+        }
+
+        * {
+            -webkit-box-sizing: border-box !important;
+            box-sizing: border-box !important;
+        }
+        body {
+            font-family: Avenir !important;
+        }
+
+        .App {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero{
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: horizontal;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+            flex-direction: row;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-size: 100vw auto;
+            background-image: url(img/orange-pattern.svg);
+            height: 100vh;
+            width: 100vw;
+            position:fixed;
+            z-index: -10;
+            top:0;
+        }
+        .overlay{
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(180deg, rgba(255, 51, 0, 1), rgba(255, 51, 0, 0.4));
+            position:absolute;
+        }
+        .card{
+            display: flex;
+            margin: 0 auto;
+            flex-direction: column;
+            padding: 2rem;
+            background-color: white;
+            min-width: 70vw;
+            max-width: 90vw;
+            margin-top: 10vh;
+            box-shadow: 0 3px 12px 2px rgba(0, 0, 0, 0.4);
+            z-index: 10;
+            text-align: center;
+        }
+        .card h2{
+            margin-top: 0;
+        }
+        .hero__logo{
+            width: 60vw;
+            min-width: 180px;
+            max-width: 240px;
+            height: 18.3vw;
+            min-height: calc(180px * 0.305);
+            max-height: calc(240px * 0.305);
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
     <noscript>
-      You need to enable JavaScript to run this app.
+        You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
+    <section class="hero">
+        <div class="overlay"></div>
+
+    </section>
+    <div class="card">
+        <img class="hero__logo" src="img/akila-logo.png" alt="Akila AI Health Coach">
+        <h2>Onboarding Process</h2>
+        <p>Please fill out your information to register for the akila trial.</p>
+        <div id="root"></div>
+    </div>
+
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -35,6 +132,6 @@
 
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-  </body>
+-->
+</body>
 </html>

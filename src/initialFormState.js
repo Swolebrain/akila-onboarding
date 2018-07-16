@@ -1,23 +1,28 @@
 export const initialFormState = {
     firstName: {
         label: "First Name",
-        value: ""
+        value: "",
+        type: "text"
     },
     lastName: {
         label: "Last Name",
-        value: ""
+        value: "",
+        type: "text"
     },
     height: {
         label: "Height",
-        value: ""
+        value: "",
+        type: "text"
     },
     weight: {
         label: "Weight (lbs)",
-        value: ""
+        value: "",
+        type: "number"
     },
     gender: {
         label: "Gender",
-        value: [
+        type: "radio",
+        values: [
             {label: "Male", selected: false},
             {label: "Female", selected: false},
             {label: "Not Specified", selected: false},
@@ -25,7 +30,8 @@ export const initialFormState = {
     },
     ethnicity: {
         label: "Primary Ethnicity",
-        value: [
+        type: "radio",
+        values: [
             {label: "White/Caucassian", selected: false},
             {label: "Black", selected: false},
             {label: "Hispanic/Latino", selected: false},
@@ -35,119 +41,154 @@ export const initialFormState = {
     },
     age: {
         label: "Age",
-        value: ""
+        value: "",
+        type: "text"
     },
-    fitbitEmail: {
-        label: "Fitbit Email",
-        value: ""
+    email: {
+        label: "Email",
+        value: "",
+        type: "email"
     },
     lastCheckUp: {
         label: "Months since last medical checkup",
-        value: ""
+        value: "",
+        type: "text"
     },
     A1CLevels: {
         label: "A1C Levels",
-        value: ""
+        value: "",
+        type: "text"
     },
     medicalHistory: {
         label: "History of Medical Conditions",
-        value: {
-            heart_condition: false,
-            hypertension: false,
-            respiratory_illness: false,
-            physical_injuries: false,
-        }
+        type: "checkbox",
+        values:[
+            {label: "Heart Condition", selected: false},
+            {label: "Hypertension", selected: false},
+            {label: "Respiratory Illness", selected: false},
+            {label: "Physical Injuries", selected: false}
+        ]
     },
     daysForExercise: {
-        monday: false,
-        tuesday: false,
-        wednesday: false,
-        thursday: false,
-        friday: false,
-        saturday: false,
-        sunday: false
+        label: "Days on which you typically exercise:",
+        type: "checkbox",
+        values: [
+            {label: "Monday", selected: false},
+            {label: "Tuesday", selected: false},
+            {label: "Wednesday", selected: false},
+            {label: "Thursday", selected: false},
+            {label: "Friday", selected: false},
+            {label: "Saturday", selected: false},
+            {label: "Sunday", selected: false},
+        ]
     },
     floorsPerDay: {
         label: "Number of floors climbed per day",
-        value: ""
+        value: "",
+        type: "text"
     },
     daysOfExercisePerWeek: {
         label: "Number of Days per week you exercise",
-        value: ""
+        value: "",
+        type: "text"
     },
     hoursOfExercisePerWeek: {
         label: "Number of hours of exercise per week",
-        value: ""
+        value: "",
+        type: "text"
     },
     stepsPerDay: {
         label: "Steps per day",
-        value: ""
+        value: "",
+        type: "text"
     },
-    exerciseIntensity: [
-        {label: "Low", selected: false},
-        {label: "Moderate (Fat Burn)", selected: false},
-        {label: "High (Cardio)", selected: false},
-    ],
-    typesOfExercise: [
-        {label: "Walking", selected: false},
-        {label: "Running", selected: false},
-        {label: "Other Cardio", selected: false},
-    ],
-    sleepPatterns: [
-        {label: "Adequate", selected: false},
-        {label: "Inadequate", selected: false},
-    ],
-    stress: [
-        {label: "High", selected: false},
-        {label: "Medium", selected: false},
-        {label: "Low", selected: false}
-    ],
+    exerciseIntensity: {
+        label: "At which intensity do you usually exercise?",
+        type: "radio",
+        values: [
+            {label: "Low", selected: false},
+            {label: "Moderate (Fat Burn)", selected: false},
+            {label: "High (Cardio)", selected: false},
+        ]
+    },
+    typesOfExercise: {
+        label: "What are your preferred types of exercise?",
+        type: "checkbox",
+        values: [
+            {label: "Walking", selected: false},
+            {label: "Running", selected: false},
+            {label: "Other Cardio", selected: false},
+        ]
+    },
+    sleepPatterns: {
+        label: "Describe your sleeping patterns",
+        type: "radio",
+        values: [
+            {label: "Adequate", selected: false},
+            {label: "Inadequate", selected: false},
+        ]
+    },
+    stress: {
+        label: "Rate your stress level",
+        type: "radio",
+        values: [
+            {label: "High", selected: false},
+            {label: "Medium", selected: false},
+            {label: "Low", selected: false}
+        ]
+    },
     //DIET####################################################
     meals: {
         label: "How many meals do you eat?",
-        value: {
-            breakfast: false,
-            lunch: false,
-            dinner: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Breakfast", selected: false},
+            {label: "Lunch", selected: false},
+            {label: "Dinner", selected: false}
+        ]
     },
     snacksPerDay: {
         label: "How many times do you snack per day?",
-        value: ""
+        value: "",
+        type: "number"
     },
     snackPreference: {
         label: "Which snacks do you prefer?",
-        value: {
-            sweet: false,
-            savory: false,
-            fruits: false,
-            nuts: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Sweet", selected: false},
+            {label: "Savory", selected: false},
+            {label: "Fruits", selected: false},
+            {label: "Nuts", selected: false}
+        ]
     },
     preferredSnackTime: {
         label: "Preferred Snack Time",
-        value: {
-            early_morning: false,
-            between_meals: false,
-            evening: false,
-            late_night: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Early Morning", selected: false},
+            {label: "Between Meals", selected: false},
+            {label: "Evening", selected: false},
+            {label: "Late Night", selected: false},
+        ]
     },
     alcoholConsumption: {
         label: "How many times a week do you drink alcohol?",
-        value: {
-            monday: false,
-            tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
-            saturday: false,
-            sunday: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Monday", selected: false},
+            {label: "Tuesday", selected: false},
+            {label: "Wednesday", selected: false},
+            {label: "Thursday", selected: false},
+            {label: "Friday", selected: false},
+            {label: "Saturday", selected: false},
+            {label: "Sunday", selected: false},
+        ]
     },
     drinksPerSession: {
         label: "How many drinks do you have each time?",
-        value: [
+        type: "radio",
+        values: [
             {label: "1-2", selected: false},
             {label: "3-4", selected: false},
             {label: "More than 4", selected: false},
@@ -155,73 +196,83 @@ export const initialFormState = {
     },
     waterPerDay: {
         label: "Number of cups of water you drink per day",
-        value: ""
+        value: "",
+        type: "number"
     },
     nonAlcoholicBeverages: {
         label: "Non-alcoholic beverages you consume",
-        value: {
-            tea_and_coffee: false,
-            soda_and_juice: false,
-            energy_drinks: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Tea or Coffee", selected: false},
+            {label: "Soda or Juice", selected: false},
+            {label: "Energy Drinks", selected: false},
+        ]
     },
     preferredTimeForBeverages: {
         label: "When do you usually drink beverages?",
-        value: {
-            early_morning: false,
-            between_meals: false,
-            evening: false,
-            late_night: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Early Morning", selected: false},
+            {label: "Between Meals", selected: false},
+            {label: "Evening", selected: false},
+            {label: "Late Night", selected: false},
+        ]
     },
     dietaryRestrictions: {
         label: "Dietary restrictions",
-        value: {
-            kosher: false,
-            halal: false,
-            vegetarian: false,
-            vegan: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Kosher", selected: false},
+            {label: "Halal", selected: false},
+            {label: "Vegetarian", selected: false},
+            {label: "Vegan", selected: false},
+            {label: "Gluten Free", selected: false},
+        ]
     },
     carbPatterns: {
         label: "Dietary patterns - Carbohydrates",
-        value: {
-            high_glycemic_simple_carbs: false,
-            whole_grains: false,
-            legumes_and_beans: false,
-        }
+        type: "checkbox",
+        values: [
+            {label: "High Glycemic Simple Carbs (pasta, white bread, etc)", selected: false},
+            {label: "Whole Grains", selected: false},
+            {label: "Legumes and beans", selected: false},
+        ]
     },
     proteinPatterns: {
         label: "Diet patterns - Proteins",
-        value: {
-            lean_poultry: false,
-            poultry: false,
-            lean_meat: false,
-            meat: false,
-            seafood: false,
-            legumes_and_other_vegetable_based_protein: false,
-        }
+        type: "checkbox",
+        values: [
+            {label: "Lean Poultry", selected: false},
+            {label: "Poultry", selected: false},
+            {label: "Lean Meat", selected: false},
+            {label: "Meat", selected: false},
+            {label: "Fish and Seafood", selected: false},
+            {label: "Tofu, Legumes, and over Vegetable proteins", selected: false},
+        ]
     },
     fatPatterns: {
         label: "Diet patterns - Fat",
-        value: {
-            olive_oil: false,
-            vegetable_oil: false,
-            butter: false,
-            other: false
-        }
+        type: "checkbox",
+        values: [
+            {label: "Olive Oil", selected: false},
+            {label: "Vegetable Oils", selected: false},
+            {label: "Butter", selected: false},
+            {label: "Other", selected: false},
+        ]
     },
     sugarPatterns: {
         label: "Diet patterns - Sugar",
-        value: {
-            desserts: false,
-            snacks: false,
-            sugary_drinks: false
-        }
+        type: "checkbox",
+        values: [
+            {label: 'Desserts', selected: false},
+            {label: 'Snacks', selected: false},
+            {label: 'Sugary Drinks', selected: false},
+        ]
     },
     vegetablePreference: {
         label: "Diet patterns - Vegetables",
-        value: [
+        type: "radio",
+        values: [
             {label: "Love", selected: false},
             {label: "Like", selected: false},
             {label: "Dislike", selected: false},
@@ -229,7 +280,8 @@ export const initialFormState = {
     },
     fruitPreference: {
         label: "Diet Patterns - Fruit",
-        value: [
+        type: "radio",
+        values: [
             {label: "Love", selected: false},
             {label: "Like", selected: false},
             {label: "Dislike", selected: false},
@@ -238,26 +290,32 @@ export const initialFormState = {
     // GOALS #################################################
     currentWeight: {
         label: "Current Weight (lbs)",
-        value: ""
+        value: "",
+        type: "text"
     },
     targetWeight: {
         label: "Target Weight (lbs)",
-        value: ""
+        value: "",
+        type: "text"
     },
     currentExerciseLevel: {
         label: "Current Exercise Level",
-        value: ""
+        value: "",
+        type: "text"
     },
     exerciseGoals: {
         label: "Exercise Goals",
-        value: ""
+        value: "",
+        type: "text"
     },
     dietGoals: {
         label: "Diet Goals",
-        value: ""
+        value: "",
+        type: "text"
     },
     mentalHealthGoals: {
         label: "Mental Health Goals",
-        value: ""
+        value: "",
+        type: "text"
     }
 }
