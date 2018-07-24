@@ -3,7 +3,7 @@ import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 
-const RadioField = ({fieldName, label, values, setFormField}) => {
+const RadioField = ({fieldName, label, values, setFormField, setSelectedInput, currentlyFocused}) => {
     let selectedValue = values.filter(v => v.selected)[0];
     // console.log(values);
     if (selectedValue && selectedValue.label) selectedValue = selectedValue.label;

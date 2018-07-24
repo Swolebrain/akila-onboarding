@@ -4,7 +4,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 
 
-const MultiSelectField = ({fieldName, label, values, setFormField}) => (
+const MultiSelectField = ({fieldName, label, values, setFormField, setSelectedInput, currentlyFocused}) => (
     <div className="form-control">
         <div className="label">{label}</div>
         <div className={"options-container"}>

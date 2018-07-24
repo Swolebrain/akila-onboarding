@@ -10,10 +10,17 @@ export default class TextField extends React.PureComponent{
         };
         this.validator = getValidator(props.fieldName);
     }
+    getFocus = () => {
+        if (this.input) this.input.focus();
+        this.props.setSelectedInput(this.props.fieldName);
+    }
     render(){
-        const {fieldName, label, value, setFormField} = this.props;
+        const {fieldName, label, value, setFormField, currentlyFocused} = this.props;
         return (
-            <div className="form-control text-input">
+            <div
+                style={currentlyFocused ? {borderBottomColor: "rgba(255, 51, 0, 0.7)"} : {}}
+                className="form-control text-input"
+                onClick={this.getFocus}>
                 <label
                     htmlFor={fieldName}>
                     {label}
@@ -21,6 +28,7 @@ export default class TextField extends React.PureComponent{
                 <input
                     type="text"
                     id={fieldName}
+                    ref={elm=>this.input = elm}
                     value={value}
                     className="text-input"
                     onChange={event => {

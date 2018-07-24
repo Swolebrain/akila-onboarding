@@ -1,0 +1,1 @@
+const apiUrl = "https://test.akila.ai:8181/health-services/"
