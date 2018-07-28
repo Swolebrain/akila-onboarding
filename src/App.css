@@ -27,6 +27,9 @@ button:focus {
 
 
 
+input[type="text"],
+input[type="password"],
+input[type="number"],
 input[type="text"]{
     box-shadow: none;
     border: none;

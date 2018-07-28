@@ -7,6 +7,7 @@ import {initialFormState} from './initialFormState.js'
 import './App.css';
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import {getFitbitPermissions, submitForm} from "./networking/networkingHelper";
 
 const theme = createMuiTheme({
     palette: {
@@ -20,8 +21,25 @@ class App extends Component {
     state = {
         form: initialFormState,
         formKeys: Object.keys(initialFormState),
-        selectedInput: null
+        selectedInput: null,
+        currentPage: 2
     };
+    componentDidUpdate() {
+        localStorage.setItem("storedState", JSON.stringify(this.state))
+    };
+    componentDidMount(){
+        try{
+            const storedState = localStorage.getItem("storedState");
+            if (!storedState) return;
+            const parsedState = JSON.parse(storedState);
+            this.setState({
+                form: parsedState.form
+            });
+        }
+        catch (e) {
+            console.log("Error loading saved state");
+        }
+    }
     setFormField = (fieldName, valueSet) => this.setState(state => {
         const newState = {
             ...state,
@@ -41,17 +59,14 @@ class App extends Component {
             ...state,
             selectedInput: formKey
         })), 0)
-    }
-    componentDidUpdate() {
-        localStorage.setItem("formState", JSON.stringify(this.state))
-    }
+    };
     unSelect = (e) => {
         e.stopPropagation();
         this.setState(state => ({
             ...state,
             selectedInput: null
         }))
-    }
+    };
     buildComponent = (formKey, formItem) => {
         const props = Object.assign(
             {
@@ -71,69 +86,43 @@ class App extends Component {
             case "multicheckbox":
                 return <MultiCheckboxField {...props} />;
             default:
-                return <TextField {...props} />;
+                return <TextField {...props} type={formItem.type} />;
         }
     };
-    submitForm = e => {
-        const {form} = this.state;
-        const apiBody = {
-            healthBehavior: {
-                medicalHistory: {},
-                exercisePatterns: {}
-            },
-            dietBehavior: {
-                dietPatterns: {}
-            }
-        };
-        this.state.formKeys.forEach(formKey=>{
-            if (!form[formKey].submissionKey){
-                apiBody[formKey] = getValue(formKey);
-                return;
-            }
-            const path = form[formKey].submissionKey.split(".");
-            // console.log(formKey, '--->', path);
-            if (path.length === 1){
-                apiBody[path[0]][formKey] = getValue(formKey);
-                return;
-            }
-            else if (path.length === 2){
-                apiBody[path[0]][path[1]][formKey] = getValue(formKey);
-                return;
-            }
 
-        });
-        console.log(apiBody)
-        window.apiBody = apiBody;
-
-        function getValue(formKey){
-            switch (form[formKey].type){
-                case "text": return form[formKey].value;
-                case "email": return form[formKey].value;
-                case "number": return Number(form[formKey].value);
-                case "radio": {
-                    const selected = form[formKey].values
-                        .filter(value => value.selected);
-                    return selected.length > 0 ?
-                        (typeof selected[0].code === 'undefined' ? selected[0].label.toUpperCase() : selected[0].code)
-                        : "";
-                }
-                case "checkbox": {
-                    if (!form[formKey].secondaryType)
-                        return form[formKey].
-                            values.filter(value => value.selected)
-                            .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code );
-
-                    //this is only for medical conditions since it has a strange format in API:
-                    const ret = {};
-                    form[formKey].values.forEach(value => {
-                        ret[value.key] = value.selected
-                    });
-                    return ret;
-                }
-            }
-        }
+    submitForm = async () => {
+        const submissionResult = await submitForm(this.state);
+        if (submissionResult) this.nextPage();
+    };
+    nextPage = () => this.setState(state => ({
+        ...state,
+        currentPage: state.currentPage+1
+    }));
+    startFitbitAuthFlow = () => {
+        getFitbitPermissions(this.state.form.email);
     }
     render() {
+        if (this.state.currentPage !== 1) {
+            return (
+                <MuiThemeProvider theme={theme}>
+                    <div style={{minHeight: '56vh'}}>
+                        <br/><br/>
+                        <h2>Link your FitBit Account</h2>
+                        <br/>
+                        <p>Please click the button below to be redirected to the Fitbit website in order to allow access to your activity data.</p>
+                        <br/>
+                        <Button
+                            onClick={this.startFitbitAuthFlow}
+                            variant="contained"
+                            style={{color:'white', fontWeight:"bold", padding: "0.5rem 2rem", fontSize: "1rem"}}
+                            color={"primary"} >
+                            Fitbit Authorization
+                        </Button>
+
+                    </div>
+                </MuiThemeProvider>
+            )
+        }
         return (
             <MuiThemeProvider theme={theme}>
                 <div className="App" onClick={this.unSelect}>

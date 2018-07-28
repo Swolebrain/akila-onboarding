@@ -26,7 +26,7 @@ export default class TextField extends React.PureComponent{
                     {label}
                 </label>
                 <input
-                    type="text"
+                    type={this.props.type || "text"}
                     id={fieldName}
                     ref={elm=>this.input = elm}
                     value={value}

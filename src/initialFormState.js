@@ -1,13 +1,23 @@
 export const initialFormState = {
-    firstName: {
-        label: "First Name",
+    // firstName: {
+    //     label: "First Name",
+    //     value: "",
+    //     type: "text"
+    // },
+    // lastName: {
+    //     label: "Last Name",
+    //     value: "",
+    //     type: "text"
+    // },
+    email: {
+        label: "Email",
         value: "",
         type: "text"
     },
-    lastName: {
-        label: "Last Name",
+    password: {
+        label: "Choose app password",
         value: "",
-        type: "text"
+        type: "password"
     },
     gender: {
         label: "Gender",
@@ -31,11 +41,6 @@ export const initialFormState = {
     },
     dateOfBirth: {
         label: "Date of Birth (mm-dd-yyyy)",
-        value: "",
-        type: "text"
-    },
-    email: {
-        label: "Email",
         value: "",
         type: "text"
     },
@@ -99,10 +104,11 @@ export const initialFormState = {
         type: "checkbox",
         submissionKey: "healthBehavior.exercisePatterns",
         values: [
-            {label: "Walking", selected: false},
-            {label: "Running", selected: false},
-            {label: "Other Cardio", selected: false},
-        ]
+            {code: "CARDIO", label: "Cardiovascular", selected: false},
+            {code: "WEIGHT", label: "Weight Lifting", selected: false},
+            {code: "SPORT", label: "General Sports", selected: false},
+            {code: "JOGGING", label: "Running or Jogging", selected: false}
+        ],
     },
     level: {
         label: "At which intensity do you usually exercise?",
@@ -301,7 +307,6 @@ export const initialFormState = {
         label: "Diet patterns - Proteins",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
-        submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         values: [
             {label: "Lean Poultry", selected: "NONE", code: "LPOULTRY"},
             {label: "Poultry", selected: "NONE", code: "POULTRY"},
@@ -386,4 +391,4 @@ export const initialFormState = {
     //     value: "",
     //     type: "text"
     // }
-}
+};

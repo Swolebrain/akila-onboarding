@@ -10,7 +10,7 @@ const MultiSelectField = ({fieldName, label, values, setFormField, setSelectedIn
         <div className={"options-container"}>
             {
                 values.map(
-                    ({label, selected}, idx) => (
+                    ({label:innerLabel, selected, code}, idx) => (
                         <span className={"checkbox-field"} key={`${fieldName}__opt${idx}`}>
                         <FormControlLabel
                             control={
@@ -19,11 +19,11 @@ const MultiSelectField = ({fieldName, label, values, setFormField, setSelectedIn
                                     id={`${fieldName}__opt${idx}`}
                                     checked={selected}
                                     onChange={createChangeHandler(values, setFormField, fieldName, idx)}
-                                    value={label}
+                                    value={code || innerLabel}
                                     color={"primary"}
                                 />
                             }
-                            label={label}
+                            label={innerLabel || console.log(values[idx]) || "yo" }
                         />
                     </span>
                     )
