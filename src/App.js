@@ -94,10 +94,11 @@ class App extends Component {
         const submissionResult = await submitForm(this.state);
         if (submissionResult) this.nextPage();
     };
-    nextPage = () => this.setState(state => ({
+    nextPage = (direction=1) => this.setState(state => ({
         ...state,
-        currentPage: state.currentPage+1
+        currentPage: state.currentPage+direction
     }));
+
     startFitbitAuthFlow = () => {
         getFitbitPermissions(this.state.form.email);
     }
@@ -105,7 +106,7 @@ class App extends Component {
         if (this.state.currentPage !== 1) {
             return (
                 <MuiThemeProvider theme={theme}>
-                    <div style={{minHeight: '56vh'}}>
+                    <div style={{minHeight: '56vh', position: 'relative'}}>
                         <br/><br/>
                         <h2>Link your FitBit Account</h2>
                         <br/>
@@ -118,11 +119,19 @@ class App extends Component {
                             color={"primary"} >
                             Fitbit Authorization
                         </Button>
-
+                        <Button
+                            color="primary"
+                            className={`prev-btn theme.spacing.unit`}
+                            style={{position: 'absolute'}}
+                            onClick={this.nextPage.bind(this, -1)}
+                        >
+                            Previous
+                        </Button>
                     </div>
                 </MuiThemeProvider>
             )
         }
+        console.log(this.state.currentPage)
         return (
             <MuiThemeProvider theme={theme}>
                 <div className="App" onClick={this.unSelect}>

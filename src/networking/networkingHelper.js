@@ -1,4 +1,5 @@
 import getValidator from "../validators";
+import querystring from "querystring";
 import {
     apiUrl,
     lambdaKey,
@@ -10,6 +11,8 @@ import {
 export function buildApiBody(state){
     const {form} = state;
     const apiBody = {
+        firstName: "hidden",
+        lastName: "alsoHidden",
         healthBehavior: {
             medicalHistory: {},
             exercisePatterns: {}
@@ -45,42 +48,63 @@ export function buildApiBody(state){
     return apiBody;
 
     function getValue(formKey){
-        switch (form[formKey].type){
-            case "text": return form[formKey].value;
-            case "password": return form[formKey].value;
-            case "email": return form[formKey].value;
-            case "number": return Number(form[formKey].value);
-            case "radio": {
-                const selected = form[formKey].values
-                    .filter(value => value.selected);
-                return selected.length > 0 ?
-                    (typeof selected[0].code === 'undefined' ? selected[0].label.toUpperCase() : selected[0].code)
-                    : "";
+        switch (formKey){
+            //handle special cases (due to strange or out of sync back end restrictions) first:
+            case 'timeForBeverages': {
+                return form[formKey]
+                    .values.filter(value => value.selected)
+                    .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code )[0];
             }
-            case "checkbox": {
-                if (!form[formKey].secondaryType)
-                    return form[formKey]
-                        .values.filter(value => value.selected)
-                        .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code );
-
-                //this is only for medical conditions since it has a strange format in API:
+            case 'restriction': {
+                return form[formKey]
+                    .values.filter(value => value.selected)
+                    .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code )[0];
+            }
+            case 'medicalHistory': {
                 const ret = {};
                 form[formKey].values.forEach(value => {
                     ret[value.key] = value.selected
                 });
                 return ret;
             }
-            case "multicheckbox": {
-                const selectedValues = form[formKey].values
-                    .filter(value => value.selected !== "NONE")
-                    .reduce((acc, value)=> {
-                        acc[value.code] = value.selected;
-                        return acc;
-                    }, {});
+            //now handle things according to their type
+            default: {
+                switch (form[formKey].type){
+                    case "text": {
+                        if (formKey === 'dateOfBirth' || formKey === 'lastCheckUp'){
+                            return formatDate(form[formKey].value)
+                        }
+                        return form[formKey].value;
+                    }
+                    case "password": return form[formKey].value;
+                    case "email": return form[formKey].value;
+                    case "number": return Number(form[formKey].value);
+                    case "radio": {
+                        const selected = form[formKey].values
+                            .filter(value => value.selected);
+                        return selected.length > 0 ?
+                            (typeof selected[0].code === 'undefined' ? selected[0].label.toUpperCase() : selected[0].code)
+                            : "";
+                    }
+                    case "checkbox": {
+                        return form[formKey]
+                            .values.filter(value => value.selected)
+                            .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code );
 
-                return selectedValues;
+                    }
+                    case "multicheckbox": {
+                        const selectedValues = form[formKey].values
+                            .filter(value => value.selected !== "NONE")
+                            .reduce((acc, value)=> {
+                                acc[value.code] = value.selected;
+                                return acc;
+                            }, {});
+
+                        return selectedValues;
+                    }
+                    default: return form[formKey].value;
+                }
             }
-            default: return form[formKey].value;
         }
     }
 }
@@ -106,7 +130,7 @@ export function isValidForm(state){
 }
 
 export async function submitForm(state){
-    if (!isValidForm()) {
+    if (!isValidForm(state)) {
         alert("Please fix errors in form fields");
         return;
     }
@@ -128,7 +152,16 @@ export async function submitForm(state){
         });
         if (lambdaResponse.status !== 200) {
             console.log(lambdaResponse);
-            throw {message: "Error response from API gateway (non 200 status)"};
+            let details = "";
+            try{
+                const resJson = await lambdaResponse.json();
+                resJson.fullAuth0Response = JSON.parse(resJson.fullAuth0Response)
+                details += " - " + resJson.fullAuth0Response.description
+            }
+            catch(e){
+                console.log("Error parsing auth0 response")
+            }
+            throw {message: "Error response from API gateway" + details};
         }
         const lambdaResponseJson = await lambdaResponse.json();
         console.log(lambdaResponseJson);
@@ -137,7 +170,7 @@ export async function submitForm(state){
         }
 
         delete apiBody.password;
-        const akilaApiResponse = await fetch(apiUrl, {
+        const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -151,7 +184,7 @@ export async function submitForm(state){
             console.log("Error while saving to akila internal system");
             throw {message: "Error while posting to AI API"};
         }
-        const akilaApiResponseJson = akilaApiResponse.json();
+        const akilaApiResponseJson = await akilaApiResponse.json();
         // if (akilaApiResponseJson){
         //     console.log("Error while saving to akila internal system");
         //     throw "Error while posting to AI API";
@@ -161,7 +194,7 @@ export async function submitForm(state){
     }
     catch (e) {
         console.log(e);
-        alert("Something went wrong when creating account - " + e);
+        alert("Something went wrong when creating account. " + e.message);
         return null;
     }
 }
@@ -171,15 +204,14 @@ export function getFitbitPermissions(email){
         userEmail: email,
         redirectUri: FITBIT_REDIRECT_URI
     };
-    console.log(body);
     console.log(FITBIT_AUTH_URL+'/start');
-    return fetch(FITBIT_AUTH_URL + '/start', {
+    console.log(body);
+    return fetch(FITBIT_AUTH_URL + '/start/12?'+querystring.stringify(body), {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
         },
         method: 'POST',
-        body: JSON.stringify(body)
     })
         .then(res=>{
             if (res.status === 200) return res.json();
@@ -192,4 +224,13 @@ export function getFitbitPermissions(email){
             window.location.href = res.uri
         })
         .catch(err=>console.log(err.message))
+}
+
+function rotateStr(str){
+    return Array(str.length).fill("").map((e, idx) => str.slice(idx) + str.slice(0, idx));
+}
+
+function formatDate(dateStr){
+    const splitDate = dateStr.split(/[-/]/);
+    return splitDate[2] + "-" + splitDate[0] + "-"+splitDate[1];
 }

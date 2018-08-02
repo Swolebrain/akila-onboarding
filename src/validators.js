@@ -1,36 +1,38 @@
-function emailValidator(str, validationMsg){
+function emailValidator(str){
     const valid = str === "" || str.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
-    return valid || validationMsg || "Please enter a valid email address";
+    return valid || "Please enter a valid email address";
 }
 
-function stringValidator(str, validationMsg){
+function stringValidator(str){
     const valid = str === "" || str.match(/^[A-z ,.;0-9]+$/);
-    return valid || validationMsg || "Please enter a valid sequence of letters";
+    return valid || "Please enter a valid sequence of letters";
 }
 
-function heightValidator(str, validationMsg){
-    const valid = str === "" || str.match(/^\d'\d{1,2}$/);
-    return valid || validationMsg || "Please enter your height in feet, eg. 6'0";
-}
-
-function numericValidator(str, validationMsg){
+function heightValidator(str){
+    // const valid = str === "" || str.match(/^\d'\d{1,2}$/);
+    // return valid || "Please enter your height in feet, eg. 6'0";
     const valid = str === "" || str.match(/^\d+$/);
-    return valid || validationMsg || "Please enter a valid number";
+    return valid || "Please enter height in inches";
 }
 
-function numericFloatValidator(str, validationMsg){
+function numericValidator(str){
+    const valid = str === "" || str.match(/^\d+$/);
+    return valid || "Please enter a valid number";
+}
+
+function numericFloatValidator(str){
     const valid = str === "" || str.match(/^\d+\.?\d*$/);
-    return valid || validationMsg || "Please enter a valid number, eg. 4.5";
+    return valid || "Please enter a valid number, eg. 4.5";
 }
 
-function dateValidator(str, validationMsg){
+function dateValidator(str){
     const valid = str === "" || str.match(/^\d{1,2}[/-]\d{1,2}[-/]\d{4}$/);
-    return valid || validationMsg || "Please enter date of birth in format mm-dd-yyyy";
+    return valid || "Please enter date of birth in format mm-dd-yyyy";
 }
 
-function phoneNumberValidator(str, validationMsg){
+function phoneNumberValidator(str){
     const valid = str === "" || str.match(/^\(*\d{3}\)*[- ]*\d{3}[ -]*\d{4}$/);
-    return valid || validationMsg || "Please enter a valid phone number, eg 555-238-3498";
+    return valid || "Please enter a valid 10 digit phone number";
 }
 
 

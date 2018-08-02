@@ -64,3 +64,8 @@ label{
     color: red;
     margin: 0;
 }
+
+.prev-btn{
+    bottom: 2rem;
+    left: 2rem;
+}

@@ -59,7 +59,7 @@ export const initialFormState = {
         label: "Height",
         submissionKey: "healthBehavior",
         value: "",
-        type: "text"
+        type: "number"
     },
     weight: {
         label: "Weight (lbs)",
@@ -115,9 +115,9 @@ export const initialFormState = {
         type: "radio",
         submissionKey: "healthBehavior.exercisePatterns",
         values: [
-            {label: "Low", selected: false},
-            {label: "Moderate (Fat Burn)", selected: false},
-            {label: "High (Cardio)", selected: false},
+            {label: "Low", selected: false, code: "LOW"},
+            {label: "Moderate (Fat Burn)", selected: false, code: "MEDIUM"},
+            {label: "High (Cardio)", selected: false, code: "HIGH"},
         ]
     },
     hoursPerDay: {
@@ -297,48 +297,48 @@ export const initialFormState = {
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: "High Glycemic (Pizza, Pasta, White Bread)", selected: "NONE", code: "HIGH_GLYC"},
-            {label: "Whole Grains", selected: "NONE", code: "GRAINS"},
-            {label: "Legumes and beans", selected: "NONE", code: "BEANS"},
+            {label: "High Glycemic (Pizza, Pasta, White Bread)", selected: "LOW", code: "HIGH_GLYC"},
+            {label: "Whole Grains", selected: "LOW", code: "GRAINS"},
+            {label: "Legumes and beans", selected: "LOW", code: "BEANS"},
         ],
-        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
+        choices: ["LOW", "MEDIUM", "HIGH"]
     },
     proteinPatterns: {
         label: "Diet patterns - Proteins",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: "Lean Poultry", selected: "NONE", code: "LPOULTRY"},
-            {label: "Poultry", selected: "NONE", code: "POULTRY"},
-            {label: "Lean Meat", selected: "NONE", code: "LMEAT"},
-            {label: "Meat", selected: "NONE", code: "MEAT"},
-            {label: "Fish and Seafood", selected: "NONE", code: "FISH"},
-            {label: "Tofu, Legumes, and over Vegetable proteins", selected: "NONE", code: "PPLANT"},
+            {label: "Lean Poultry", selected: "LOW", code: "LPOULTRY"},
+            {label: "Poultry", selected: "LOW", code: "POULTRY"},
+            {label: "Lean Meat", selected: "LOW", code: "LMEAT"},
+            {label: "Meat", selected: "LOW", code: "MEAT"},
+            {label: "Fish and Seafood", selected: "LOW", code: "FISH"},
+            {label: "Tofu, Legumes, and over Vegetable proteins", selected: "LOW", code: "PPLANT"},
         ],
-        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
+        choices: ["LOW", "MEDIUM", "HIGH"]
     },
     fatPatterns: {
         label: "Diet patterns - Fat",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: "Olive Oil", selected: "NONE", code: "OOIL"},
-            {label: "Vegetable Oils", selected: "NONE", code: "VOIL"},
-            {label: "Butter", selected: "NONE", code: "BUTTER"},
-            {label: "Other", selected: "NONE", code: "OTHERF"},
+            {label: "Olive Oil", selected: "LOW", code: "OOIL"},
+            {label: "Vegetable Oils", selected: "LOW", code: "VOIL"},
+            {label: "Butter", selected: "LOW", code: "BUTTER"},
+            {label: "Other", selected: "LOW", code: "OTHERF"},
         ],
-        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
+        choices: ["LOW", "MEDIUM", "HIGH"]
     },
     sugarPatterns: {
         label: "Diet patterns - Sugar",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: 'Desserts', selected: "NONE", code: "DESSERT"},
-            {label: 'Snacks', selected: "NONE", code: "SNACK"},
-            {label: 'Sugary Drinks', selected: "NONE", code: "BEVERAGE"},
+            {label: 'Desserts', selected: "LOW", code: "DESSERT"},
+            {label: 'Snacks', selected: "LOW", code: "SNACK"},
+            {label: 'Sugary Drinks', selected: "LOW", code: "BEVERAGE"},
         ],
-        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
+        choices: ["LOW", "MEDIUM", "HIGH"]
     },
     vegetablesPreference: {
         label: "Diet patterns - Vegetables",
