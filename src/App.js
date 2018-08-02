@@ -22,7 +22,7 @@ class App extends Component {
         form: initialFormState,
         formKeys: Object.keys(initialFormState),
         selectedInput: null,
-        currentPage: 2
+        currentPage: 1
     };
     componentDidUpdate() {
         localStorage.setItem("storedState", JSON.stringify(this.state))
@@ -33,7 +33,8 @@ class App extends Component {
             if (!storedState) return;
             const parsedState = JSON.parse(storedState);
             this.setState({
-                form: parsedState.form
+                form: parsedState.form,
+                currentPage: parsedState.currentPage
             });
         }
         catch (e) {
