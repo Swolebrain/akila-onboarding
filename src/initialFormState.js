@@ -19,13 +19,18 @@ export const initialFormState = {
         value: "",
         type: "password"
     },
+    passwordConf: {
+        label: "Confirm your password",
+        value: "",
+        type: "password"
+    },
     gender: {
         label: "Gender",
         type: "radio",
         values: [
             {label: "Male", selected: false},
             {label: "Female", selected: false},
-            {label: "Not Specified", selected: false},
+            // {label: "Not Specified", selected: false},
         ],
     },
     ethnicityCode: {
@@ -36,13 +41,14 @@ export const initialFormState = {
             {label: "Black", selected: false, code: "BLACK"},
             {label: "Hispanic/Latino", selected: false, code: "LAT"},
             {label: "American Indian", selected: false, code: "NATIVE"},
+            {label: "Asian", selected: false, code: "ASIAN"},
             {label: "Other", selected: false, code: "OTHER"},
         ],
     },
     dateOfBirth: {
-        label: "Date of Birth (mm-dd-yyyy)",
-        value: "",
-        type: "text"
+        label: "Date of Birth",
+        value: null,
+        type: "date"
     },
     phoneNumber: {
         label: "Phone Number",
@@ -52,14 +58,14 @@ export const initialFormState = {
     lastCheckUp: {
         label: "Approx date of last checkup",
         submissionKey: "healthBehavior",
-        value: "",
-        type: "text"
+        value: null,
+        type: "date"
     },
     height: {
         label: "Height",
         submissionKey: "healthBehavior",
         value: "",
-        type: "number"
+        type: "text"
     },
     weight: {
         label: "Weight (lbs)",
@@ -124,19 +130,19 @@ export const initialFormState = {
         label: "Number of hours of exercise per day",
         value: "",
         submissionKey: "healthBehavior.exercisePatterns",
-        type: "text"
+        type: "number"
     },
     floorsPerDay: {
         label: "Number of floors climbed per day",
         value: "",
         submissionKey: "healthBehavior.exercisePatterns",
-        type: "text"
+        type: "number"
     },
     stepsPerDay: {
         label: "Steps per day",
         value: "",
         submissionKey: "healthBehavior.exercisePatterns",
-        type: "text"
+        type: "number"
     },
     adequateSleepPattern: {
         label: "Describe your sleeping patterns",
@@ -286,10 +292,10 @@ export const initialFormState = {
         type: "checkbox",
         values: [
             {label: "Kosher", selected: false},
-            {label: "Halal", selected: false},
             {label: "Vegetarian", selected: false},
             {label: "Vegan", selected: false},
-            {label: "Gluten Free", selected: false},
+            // {label: "Halal", selected: false},
+            // {label: "Gluten Free", selected: false},
         ]
     },
     carbPatterns: {
@@ -297,48 +303,48 @@ export const initialFormState = {
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: "High Glycemic (Pizza, Pasta, White Bread)", selected: "LOW", code: "HIGH_GLYC"},
-            {label: "Whole Grains", selected: "LOW", code: "GRAINS"},
-            {label: "Legumes and beans", selected: "LOW", code: "BEANS"},
+            {label: "High Glycemic (Pizza, Pasta, White Bread)", selected: "NONE", code: "HIGH_GLYC"},
+            {label: "Whole Grains", selected: "NONE", code: "GRAINS"},
+            {label: "Legumes and beans", selected: "NONE", code: "BEANS"},
         ],
-        choices: ["LOW", "MEDIUM", "HIGH"]
+        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
     },
     proteinPatterns: {
         label: "Diet patterns - Proteins",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: "Lean Poultry", selected: "LOW", code: "LPOULTRY"},
-            {label: "Poultry", selected: "LOW", code: "POULTRY"},
-            {label: "Lean Meat", selected: "LOW", code: "LMEAT"},
-            {label: "Meat", selected: "LOW", code: "MEAT"},
-            {label: "Fish and Seafood", selected: "LOW", code: "FISH"},
-            {label: "Tofu, Legumes, and over Vegetable proteins", selected: "LOW", code: "PPLANT"},
+            {label: "Lean Poultry", selected: "NONE", code: "LPOULTRY"},
+            {label: "Poultry", selected: "NONE", code: "POULTRY"},
+            {label: "Lean Meat", selected: "NONE", code: "LMEAT"},
+            {label: "Meat", selected: "NONE", code: "MEAT"},
+            {label: "Fish and Seafood", selected: "NONE", code: "FISH"},
+            {label: "Tofu, Legumes, and over Vegetable proteins", selected: "NONE", code: "PPLANT"},
         ],
-        choices: ["LOW", "MEDIUM", "HIGH"]
+        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
     },
     fatPatterns: {
         label: "Diet patterns - Fat",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: "Olive Oil", selected: "LOW", code: "OOIL"},
-            {label: "Vegetable Oils", selected: "LOW", code: "VOIL"},
-            {label: "Butter", selected: "LOW", code: "BUTTER"},
-            {label: "Other", selected: "LOW", code: "OTHERF"},
+            {label: "Olive Oil", selected: "NONE", code: "OOIL"},
+            {label: "Vegetable Oils", selected: "NONE", code: "VOIL"},
+            {label: "Butter", selected: "NONE", code: "BUTTER"},
+            {label: "Other", selected: "NONE", code: "OTHERF"},
         ],
-        choices: ["LOW", "MEDIUM", "HIGH"]
+        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
     },
     sugarPatterns: {
         label: "Diet patterns - Sugar",
         submissionKey: "dietBehavior.dietPatterns.foodTypeLevels",
         type: "multicheckbox",
         values: [
-            {label: 'Desserts', selected: "LOW", code: "DESSERT"},
-            {label: 'Snacks', selected: "LOW", code: "SNACK"},
-            {label: 'Sugary Drinks', selected: "LOW", code: "BEVERAGE"},
+            {label: 'Desserts', selected: "NONE", code: "DESSERT"},
+            {label: 'Snacks', selected: "NONE", code: "SNACK"},
+            {label: 'Sugary Drinks', selected: "NONE", code: "BEVERAGE"},
         ],
-        choices: ["LOW", "MEDIUM", "HIGH"]
+        choices: ["NONE", "LOW", "MEDIUM", "HIGH"]
     },
     vegetablesPreference: {
         label: "Diet patterns - Vegetables",
@@ -347,7 +353,7 @@ export const initialFormState = {
         values: [
             {label: "Love", selected: false},
             {label: "Like", selected: false},
-            {label: "Dislike", selected: false},
+            {label: "Dislike", selected: false, code: "DONT_CARE"},
         ]
     },
     fruitsPreference: {
@@ -357,7 +363,7 @@ export const initialFormState = {
         values: [
             {label: "Love", selected: false},
             {label: "Like", selected: false},
-            {label: "Dislike", selected: false},
+            {label: "Dislike", selected: false, code: "DONT_CARE"},
         ]
     },
     // GOALS #################################################

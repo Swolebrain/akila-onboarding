@@ -69,3 +69,8 @@ label{
     bottom: 2rem;
     left: 2rem;
 }
+
+.SingleDatePicker_picker{
+    position: relative;
+    top: 0 !important;
+}

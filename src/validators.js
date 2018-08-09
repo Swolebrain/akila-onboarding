@@ -1,3 +1,4 @@
+/*eslint no-useless-escape: "off"*/
 function emailValidator(str){
     const valid = str === "" || str.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     return valid || "Please enter a valid email address";
@@ -9,10 +10,8 @@ function stringValidator(str){
 }
 
 function heightValidator(str){
-    // const valid = str === "" || str.match(/^\d'\d{1,2}$/);
-    // return valid || "Please enter your height in feet, eg. 6'0";
-    const valid = str === "" || str.match(/^\d+$/);
-    return valid || "Please enter height in inches";
+    const valid = str === "" || str.match(/^\d'\d{1,2}$/);
+    return valid || "Please enter your height in feet, eg. 6'0";
 }
 
 function numericValidator(str){
@@ -36,9 +35,12 @@ function phoneNumberValidator(str){
 }
 
 
+
 const validationMappings = {
     firstName: stringValidator,
     lastName: stringValidator,
+    password: str => true,
+    passwordConf: str => str === document.getElementById('password').value ? true : "Passwords must match.",
     height: heightValidator,
     weight: numericValidator,
     dateOfBirth: dateValidator,

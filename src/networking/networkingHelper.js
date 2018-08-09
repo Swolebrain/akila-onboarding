@@ -11,8 +11,9 @@ import {
 export function buildApiBody(state){
     const {form} = state;
     const apiBody = {
-        firstName: "hidden",
-        lastName: "alsoHidden",
+        // isAnonymous: true,
+        firstName: 'dummy',
+        lastName: 'dummyToo',
         healthBehavior: {
             medicalHistory: {},
             exercisePatterns: {}
@@ -24,23 +25,26 @@ export function buildApiBody(state){
         }
     };
     state.formKeys.forEach(formKey=>{
+        if (formKey === 'passwordConf' || formKey ==='A1CLevels') return;
+        let formValue = getValue(formKey);
+        if (typeof formValue === 'undefined') formValue = null;
         if (!form[formKey].submissionKey){
-            apiBody[formKey] = getValue(formKey);
+            apiBody[formKey] = formValue;
             return;
         }
         const path = form[formKey].submissionKey.split(".");
         // console.log(formKey, '--->', path);
         if (path.length === 1){
-            apiBody[path[0]][formKey] = getValue(formKey);
+            apiBody[path[0]][formKey] = formValue;
             return;
         }
         else if (path.length === 2){
-            apiBody[path[0]][path[1]][formKey] = getValue(formKey);
+            apiBody[path[0]][path[1]][formKey] = formValue;
             return;
         }
         else if (path.length === 3){
             if (!apiBody[path[0]][path[1]][path[2]]) apiBody[path[0]][path[1]][path[2]] = {};
-            Object.assign(apiBody[path[0]][path[1]][path[2]], getValue(formKey));
+            Object.assign(apiBody[path[0]][path[1]][path[2]], formValue);
             return;
         }
 
@@ -50,11 +54,11 @@ export function buildApiBody(state){
     function getValue(formKey){
         switch (formKey){
             //handle special cases (due to strange or out of sync back end restrictions) first:
-            case 'timeForBeverages': {
-                return form[formKey]
-                    .values.filter(value => value.selected)
-                    .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code )[0];
-            }
+            // case 'timeForBeverages': {
+            //     return form[formKey]
+            //         .values.filter(value => value.selected)
+            //         .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code )[0];
+            // }
             case 'restriction': {
                 return form[formKey]
                     .values.filter(value => value.selected)
@@ -67,15 +71,23 @@ export function buildApiBody(state){
                 });
                 return ret;
             }
+            case 'weight':{
+                return {
+                    value: Math.round(Number(form[formKey].value)/2.2),
+                    unit: 'KG'
+                };
+            }
+            case 'height':{
+                return {
+                    value: getNumericHeight(form[formKey].value),
+                    unit: 'MT'
+                };
+            }
             //now handle things according to their type
             default: {
                 switch (form[formKey].type){
-                    case "text": {
-                        if (formKey === 'dateOfBirth' || formKey === 'lastCheckUp'){
-                            return formatDate(form[formKey].value)
-                        }
-                        return form[formKey].value;
-                    }
+                    case "text": return form[formKey].value;
+                    case "date": return formatDate(form[formKey].value);
                     case "password": return form[formKey].value;
                     case "email": return form[formKey].value;
                     case "number": return Number(form[formKey].value);
@@ -150,63 +162,59 @@ export async function submitForm(state){
                 connection: 'Username-Password-Authentication'
             })
         });
-        if (lambdaResponse.status !== 200) {
-            console.log(lambdaResponse);
-            let details = "";
-            try{
-                const resJson = await lambdaResponse.json();
-                resJson.fullAuth0Response = JSON.parse(resJson.fullAuth0Response)
-                details += " - " + resJson.fullAuth0Response.description
-            }
-            catch(e){
-                console.log("Error parsing auth0 response")
-            }
-            throw {message: "Error response from API gateway" + details};
-        }
         const lambdaResponseJson = await lambdaResponse.json();
         console.log(lambdaResponseJson);
-        if (!lambdaResponseJson._id) {
-            throw {message: "Error response from API gateway (parsing Json)"};
+
+        if (lambdaResponse.status !== 200) {
+            let details = "";
+            lambdaResponseJson.fullAuth0Response = JSON.parse(lambdaResponseJson.fullAuth0Response)
+            details += " - " + lambdaResponseJson.fullAuth0Response.description
+            throw new Error("Error response from API gateway" + details);
         }
 
+        let auth0ID = lambdaResponseJson._id || 'manual-reconciliation';
+
         delete apiBody.password;
+        // console.log('###APIBODY', JSON.stringify(apiBody));
         const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
             },
             body: JSON.stringify({
                 ...apiBody,
-                auth0ID: lambdaResponseJson._id
+                auth0ID
             })
         });
-        if (akilaApiResponse.status !== 200){
+
+        if (akilaApiResponse.status !== 201){
+            const akilaApiResponseJson = await akilaApiResponse.json();
+            console.log('akilaResponseJson', akilaApiResponseJson);
             console.log("Error while saving to akila internal system");
-            throw {message: "Error while posting to AI API"};
+            throw new Error("Error while posting to AI API - " + akilaApiResponseJson.message);
         }
-        const akilaApiResponseJson = await akilaApiResponse.json();
-        // if (akilaApiResponseJson){
-        //     console.log("Error while saving to akila internal system");
-        //     throw "Error while posting to AI API";
-        // }
-        console.log(akilaApiResponseJson);
-        return akilaApiResponseJson;
+
+        return true;
     }
     catch (e) {
         console.log(e);
-        alert("Something went wrong when creating account. " + e.message);
+        alert(e.toString());
         return null;
     }
 }
 
-export function getFitbitPermissions(email){
+export async function getFitbitPermissions(email){
+    const savedUserData = await fetch(apiUrl + '/users/user?email=' + email).then(res => res.json());
+    if (!savedUserData) alert("Error: Please create a user first");
+
     const body = {
         userEmail: email,
         redirectUri: FITBIT_REDIRECT_URI
     };
     console.log(FITBIT_AUTH_URL+'/start');
     console.log(body);
-    return fetch(FITBIT_AUTH_URL + '/start/12?'+querystring.stringify(body), {
+    return fetch(FITBIT_AUTH_URL + '/start/' + savedUserData.id + '?' + querystring.stringify(body), {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json'
@@ -226,11 +234,13 @@ export function getFitbitPermissions(email){
         .catch(err=>console.log(err.message))
 }
 
-function rotateStr(str){
-    return Array(str.length).fill("").map((e, idx) => str.slice(idx) + str.slice(0, idx));
-}
 
 function formatDate(dateStr){
-    const splitDate = dateStr.split(/[-/]/);
-    return splitDate[2] + "-" + splitDate[0] + "-"+splitDate[1];
+    const splitDate = dateStr.split('-');
+    return splitDate[2] + "-" + ('0'+splitDate[0]).slice(-2) + "-" + ('0'+splitDate[1]).slice(-2);
+}
+
+function getNumericHeight(heightStr){
+    const height = heightStr.split("'").map(Number);
+    return Math.round((height[0]*12*2.54 + height[1]*2.54))/100;
 }
