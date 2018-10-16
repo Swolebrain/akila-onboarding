@@ -32,6 +32,9 @@ class App extends Component {
         localStorage.setItem("storedState", JSON.stringify(this.state))
     };
     componentDidMount(){
+        window.addEventListener('keydown', e=>{
+            if (e.keyCode === 9) e.preventDefault();
+        });
         try{
             const storedState = localStorage.getItem("storedState");
             if (!storedState) return;

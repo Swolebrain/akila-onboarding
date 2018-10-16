@@ -15,7 +15,7 @@ function heightValidator(str){
 }
 
 function numericValidator(str){
-    const valid = str === "" || str.match(/^\d+$/);
+    const valid = str === "" || str.match(/^[0-9]+$/);
     return valid || "Please enter a valid number";
 }
 
@@ -52,6 +52,8 @@ const validationMappings = {
     hoursOfExercisePerWeek: numericValidator,
     stepsPerDay: numericValidator,
     currentWeight: numericValidator,
+    snacksPerDay: numericValidator,
+    waterPerDay: numericValidator,
     targetWeight: numericValidator,
     email: emailValidator
 };

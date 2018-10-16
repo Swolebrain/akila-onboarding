@@ -54,11 +54,11 @@ export function buildApiBody(state){
     function getValue(formKey){
         switch (formKey){
             //handle special cases (due to strange or out of sync back end restrictions) first:
-            // case 'timeForBeverages': {
-            //     return form[formKey]
-            //         .values.filter(value => value.selected)
-            //         .map(value => typeof value.code === 'undefined' ? value.label.toUpperCase() : value.code )[0];
-            // }
+            case 'snacksPerDay': {
+                const numericSnackNum = parseInt(form[formKey]);
+                if (isNaN(numericSnackNum)) return 0;
+                return numericSnackNum;
+            }
             case 'restriction': {
                 return form[formKey]
                     .values.filter(value => value.selected)

@@ -1,14 +1,4 @@
 export const initialFormState = {
-    // firstName: {
-    //     label: "First Name",
-    //     value: "",
-    //     type: "text"
-    // },
-    // lastName: {
-    //     label: "Last Name",
-    //     value: "",
-    //     type: "text"
-    // },
     email: {
         label: "Email",
         value: "",
@@ -30,7 +20,6 @@ export const initialFormState = {
         values: [
             {label: "Male", selected: false},
             {label: "Female", selected: false},
-            // {label: "Not Specified", selected: false},
         ],
     },
     ethnicityCode: {
@@ -80,7 +69,7 @@ export const initialFormState = {
         type: "text"
     },
     medicalHistory: {
-        label: "History of Medical Conditions",
+        label: "History of Medical Conditions (check any that apply)",
         type: "checkbox",
         secondaryType: "object",
         submissionKey: "healthBehavior",
@@ -92,7 +81,7 @@ export const initialFormState = {
         ]
     },
     days: {
-        label: "Days on which you typically exercise:",
+        label: "Days on which you typically exercise: (check any that apply)",
         type: "checkbox",
         submissionKey: "healthBehavior.exercisePatterns",
         values: [
@@ -106,7 +95,7 @@ export const initialFormState = {
         ]
     },
     types: {
-        label: "What are your preferred types of exercise?",
+        label: "What are your preferred types of exercise? (check any that apply)",
         type: "checkbox",
         submissionKey: "healthBehavior.exercisePatterns",
         values: [
@@ -226,7 +215,7 @@ export const initialFormState = {
         type: "number"
     },
     alcoholConsumedOn: {
-        label: "How many times a week do you drink alcohol?",
+        label: "How many times a week do you drink alcohol? (select all that apply)",
         submissionKey: "dietBehavior",
         type: "checkbox",
         values: [
@@ -264,7 +253,7 @@ export const initialFormState = {
     //     ]
     // },
     beveragePreferences: {
-        label: "Non-alcoholic beverages you consume",
+        label: "Non-alcoholic beverages you consume (check any that apply)",
         submissionKey: "dietBehavior",
         type: "checkbox",
         values: [
@@ -276,7 +265,7 @@ export const initialFormState = {
         ]
     },
     timeForBeverages: {
-        label: "When do you usually drink beverages?",
+        label: "When do you usually drink beverages? (if applicable)",
         submissionKey: "dietBehavior",
         type: "checkbox",
         values: [
@@ -287,7 +276,7 @@ export const initialFormState = {
         ]
     },
     restriction: {
-        label: "Dietary restrictions",
+        label: "Dietary restrictions (check all that apply)",
         submissionKey: "dietBehavior",
         type: "checkbox",
         values: [
