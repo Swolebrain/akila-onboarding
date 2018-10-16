@@ -4,6 +4,7 @@ import { withStyles } from '@material-ui/core/styles';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const styles = {
     formField: {
@@ -56,7 +57,7 @@ class DateField extends React.PureComponent{
                     >
                         {
                             ['', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'].map((month, idx)=>
-                                <option style={{padding: '2px 4px'}} value={idx ? (""+idx) :''} key={idx}>{month}</option>
+                                <MenuItem style={{padding: '2px 4px'}} value={idx ? (""+idx) :''} key={idx}>{month}</MenuItem>
                             )
                         }
                     </Select>
@@ -77,10 +78,10 @@ class DateField extends React.PureComponent{
                             )
                         }
                         value={splitValue[1]}>
-                        <option value={''}></option>
+                        <MenuItem value={''}></MenuItem>
                         {
                             Array(31).fill('').map((_,i) => i+1).map((day, idx)=>
-                                <option style={{padding: '2px 4px'}} value={idx ? (""+day) :''} key={idx}>{day}</option>
+                                <MenuItem style={{padding: '2px 4px'}} value={idx ? (""+day) :''} key={idx}>{day}</MenuItem>
                             )
                         }
                     </Select>
@@ -101,10 +102,10 @@ class DateField extends React.PureComponent{
                             )
                         }
                         value={splitValue[2]}>
-                        <option value={''}></option>
+                        <MenuItem value={''}></MenuItem>
                         {
                             Array(121).fill('').map((_,i) => new Date().getFullYear() - i).map((year, idx)=>
-                                <option style={{padding: '2px 4px'}} value={""+year} key={idx}>{year}</option>
+                                <MenuItem style={{padding: '2px 4px'}} value={""+year} key={idx}>{year}</MenuItem>
                             )
                         }
                     </Select>
