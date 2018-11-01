@@ -1,36 +1,45 @@
 /*eslint no-useless-escape: "off"*/
 function emailValidator(str){
-    const valid = str === "" || str.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
+    const valid = str.match(/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
     return valid || "Please enter a valid email address";
 }
 
 function stringValidator(str){
-    const valid = str === "" || str.match(/^[A-z ,.;0-9]+$/);
+    const valid = str.match(/^[A-z ,.;0-9]+$/);
     return valid || "Please enter a valid sequence of letters";
 }
 
 function heightValidator(str){
-    const valid = str === "" || str.match(/^\d'\d{1,2}$/);
+    const valid = str.match(/^\d'\d{1,2}$/);
     return valid || "Please enter your height in feet, eg. 6'0";
 }
 
 function numericValidator(str){
-    const valid = str === "" || str.match(/^[0-9]+$/);
+    const valid = str.match(/^[0-9]+$/);
     return valid || "Please enter a valid number";
 }
 
 function numericFloatValidator(str){
-    const valid = str === "" || str.match(/^\d+\.?\d*$/);
+    const valid = str.match(/^\d+\.?\d*$/);
     return valid || "Please enter a valid number, eg. 4.5";
 }
 
 function dateValidator(str){
-    const valid = str === "" || str.match(/^\d{1,2}[/-]\d{1,2}[-/]\d{4}$/);
-    return valid || "Please enter date of birth in format mm-dd-yyyy";
+    const valid = str && str.match(/^\d{1,2}[/-]\d{1,2}[-/]\d{4}$/);
+    return valid || "Please enter full date ";
+}
+function dobValidator(str){
+    const valid = str && str.match(/^\d{1,2}[/-]\d{1,2}[-/]\d{4}$/);
+    if (valid) {
+        const year = Number(str.slice(-4));
+        if (year > new Date().getFullYear()-15) return "You must be at least 15 years old to participate";
+    }
+    return valid || "Please enter full date of birth";
 }
 
+
 function phoneNumberValidator(str){
-    const valid = str === "" || str.match(/^\(*\d{3}\)*[- ]*\d{3}[ -]*\d{4}$/);
+    const valid = str.match(/^\(*\d{3}\)*[- ]*\d{3}[ -]*\d{4}$/);
     return valid || "Please enter a valid 10 digit phone number";
 }
 
@@ -43,13 +52,13 @@ const validationMappings = {
     passwordConf: str => str === document.getElementById('password').value ? true : "Passwords must match.",
     height: heightValidator,
     weight: numericValidator,
-    dateOfBirth: dateValidator,
+    dateOfBirth: dobValidator,
     lastCheckUp: dateValidator,
     phoneNumber: phoneNumberValidator,
     A1CLevels: numericFloatValidator,
     floorsPerDay: numericValidator,
     daysOfExercisePerWeek: numericValidator,
-    hoursOfExercisePerWeek: numericValidator,
+    hoursPerDay: numericValidator,
     stepsPerDay: numericValidator,
     currentWeight: numericValidator,
     snacksPerDay: numericValidator,

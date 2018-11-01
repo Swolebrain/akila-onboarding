@@ -1,7 +1,16 @@
 import React from 'react';
-import getValidator from '../validators'
+import getValidator from '../validators';
+import PropTypes from 'prop-types';
 
 export default class TextField extends React.PureComponent{
+    static propTypes = {
+        fieldName: PropTypes.string.isRequired,
+        label: PropTypes.string.isRequired,
+        value: PropTypes.string.isRequired,
+        setSelectedInput: PropTypes.func.isRequired,
+        setFormField: PropTypes.func.isRequired,
+        currentlyFocused: PropTypes.bool.isRequired,
+    }
     constructor(props){
         super(props)
         this.state = {

@@ -102,7 +102,8 @@ export const initialFormState = {
             {code: "CARDIO", label: "Cardiovascular", selected: false},
             {code: "WEIGHT", label: "Weight Lifting", selected: false},
             {code: "SPORT", label: "General Sports", selected: false},
-            {code: "JOGGING", label: "Running or Jogging", selected: false}
+            {code: "RUNNING", label: "Running or Jogging", selected: false},
+            {code: "WALKING", label: "Walking", selected: false}
         ],
     },
     level: {
@@ -116,7 +117,7 @@ export const initialFormState = {
         ]
     },
     hoursPerDay: {
-        label: "Number of hours of exercise per day",
+        label: "Number of minutes of exercise per day",
         value: "",
         submissionKey: "healthBehavior.exercisePatterns",
         type: "number"

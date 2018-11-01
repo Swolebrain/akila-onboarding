@@ -55,9 +55,14 @@ export function buildApiBody(state){
         switch (formKey){
             //handle special cases (due to strange or out of sync back end restrictions) first:
             case 'snacksPerDay': {
-                const numericSnackNum = parseInt(form[formKey]);
+                const numericSnackNum = parseInt(form[formKey], 10);
                 if (isNaN(numericSnackNum)) return 0;
                 return numericSnackNum;
+            }
+            case 'hoursPerDay': {
+                const numericMinutes = parseInt(form[formKey], 10);
+                if (isNaN(numericMinutes)) return 0;
+                return numericMinutes/60;
             }
             case 'restriction': {
                 return form[formKey]
@@ -123,27 +128,46 @@ export function buildApiBody(state){
 
 export function isValidForm(state){
     const {form} = state;
-    return Object.keys(state.form).reduce((acc, formKey) => {
+    const errorFields = [];
+    const validationResult =  state.formKeys.reduce((acc, formKey) => {
         if (!acc) return false;
-        switch (formKey.type){
+        let workingVal = false;
+        // console.log('validating',form[formKey], getValidator(formKey)(form[formKey].value));
+        switch (form[formKey].type){
             case "text":
-                return getValidator(formKey)(form[formKey].value) && acc;
+                workingVal = getValidator(formKey)(form[formKey].value); break;
             case "password":
-                return getValidator(formKey)(form[formKey].value) && acc;
+                workingVal = getValidator(formKey)(form[formKey].value); break;
             case "email":
-                return getValidator(formKey)(form[formKey].value) && acc;
+                workingVal = getValidator(formKey)(form[formKey].value); break;
             case "number":
-                return getValidator(formKey)(form[formKey].value) && acc;
+                workingVal = getValidator(formKey)(form[formKey].value); break;
             case "radio":
-                return form[formKey].values.filter(val => val.selected).length === 1 & acc;
+                workingVal = form[formKey].values.filter(val => val.selected).length === 1;
+                if (!workingVal) errorFields.push("You must select at least one entry in " + form[formKey].label);
+                break;
+            case "date":
+                workingVal = getValidator(formKey)(form[formKey].value);
+                break;
+            case "multicheckbox":
+                return true;
             default: return acc;
         }
+        if (typeof workingVal === 'string'){
+            errorFields.push(form[formKey].label + ': ' + workingVal);
+            return false;
+        }
+
+        return workingVal;
     }, true);
+
+    return errorFields;
 }
 
 export async function submitForm(state){
-    if (!isValidForm(state)) {
-        alert("Please fix errors in form fields");
+    const formFieldErrors = isValidForm(state);
+    if (formFieldErrors.length > 0) {
+        alert(formFieldErrors.join("\n"));
         return;
     }
     const apiBody = buildApiBody(state);
@@ -229,7 +253,7 @@ export async function getFitbitPermissions(email){
         .then(res => {
             console.log(res);
             //redirect to res.uri
-            window.location.href = res.uri
+            window.location = res.uri
         })
         .catch(err=>console.log(err.message))
 }
