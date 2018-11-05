@@ -356,35 +356,4 @@ export const initialFormState = {
             {label: "Dislike", selected: false, code: "DONT_CARE"},
         ]
     },
-    // GOALS #################################################
-    // currentWeight: {
-    //     label: "Current Weight (lbs)",
-    //     value: "",
-    //     type: "text"
-    // },
-    // targetWeight: {
-    //     label: "Target Weight (lbs)",
-    //     value: "",
-    //     type: "text"
-    // },
-    // currentExerciseLevel: {
-    //     label: "Current Exercise Level",
-    //     value: "",
-    //     type: "text"
-    // },
-    // exerciseGoals: {
-    //     label: "Exercise Goals",
-    //     value: "",
-    //     type: "text"
-    // },
-    // dietGoals: {
-    //     label: "Diet Goals",
-    //     value: "",
-    //     type: "text"
-    // },
-    // mentalHealthGoals: {
-    //     label: "Mental Health Goals",
-    //     value: "",
-    //     type: "text"
-    // }
 };

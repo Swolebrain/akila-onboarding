@@ -12,20 +12,20 @@ const MultiSelectField = ({fieldName, label, values, setFormField, setSelectedIn
                 values.map(
                     ({label:innerLabel, selected, code}, idx) => (
                         <span className={"checkbox-field"} key={`${fieldName}__opt${idx}`}>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    name={fieldName}
-                                    id={`${fieldName}__opt${idx}`}
-                                    checked={selected}
-                                    onChange={createChangeHandler(values, setFormField, fieldName, idx)}
-                                    value={code || innerLabel}
-                                    color={"primary"}
-                                />
-                            }
-                            label={innerLabel || console.log(values[idx]) || "yo" }
-                        />
-                    </span>
+                            <FormControlLabel
+                                control={
+                                    <Checkbox
+                                        name={fieldName}
+                                        id={`${fieldName}__opt${idx}`}
+                                        checked={selected}
+                                        onChange={createChangeHandler(values, setFormField, fieldName, idx)}
+                                        value={code || innerLabel}
+                                        color={"primary"}
+                                    />
+                                }
+                                label={innerLabel || console.log(values[idx]) || "yo" }
+                            />
+                        </span>
                     )
                 )
             }

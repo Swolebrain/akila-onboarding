@@ -10,6 +10,8 @@ import Button from '@material-ui/core/Button';
 import isEqual from 'lodash/isEqual';
 import {Link} from 'react-router-dom';
 import {submitForm} from "./networking/networkingHelper";
+import Checkbox from "@material-ui/core/Checkbox/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel/FormControlLabel";
 
 
 class SignupForm extends Component {
@@ -17,7 +19,9 @@ class SignupForm extends Component {
         form: initialFormState,
         formKeys: Object.keys(initialFormState),
         selectedInput: null,
-        currentPage: 1
+        currentPage: 1,
+        tncAccepted: false,
+        ppAccepted: false
     };
     componentDidUpdate(prevProps, prevState, snapshot) {
         //don't save a password locally x.x
@@ -147,13 +151,17 @@ class SignupForm extends Component {
     };
 
     submitForm = async () => {
+        if (!document.getElementById('tnc-checkbox').checked)
+            return alert("You must accept the terms and conditions");
+
+        if (!document.getElementById('pp-checkbox').checked)
+            return alert("You must review and acknowledge the Privacy Policy");
         const submissionResult = await submitForm(this.state);
         if (submissionResult)
             this.props.history.push('/fitbit');
     };
 
     render() {
-        console.log(this.props.history);
         return (
             <React.Fragment>
                 <h2>Participant Signup</h2>
@@ -169,6 +177,38 @@ class SignupForm extends Component {
                             return this.buildComponent(formKey, formItem);
                         })
                     }
+                </div>
+                <div className="form-control">
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name={'tnc-checkbox'}
+                                id={`tnc-checkbox`}
+                                checked={this.state.tncAccepted}
+                                onChange={() =>this.setState( () => ({tncAccepted: !this.state.tncAccepted}) )}
+                                value={""+this.state.tncAccepted}
+                                color={"primary"}
+                            />
+                        }
+                        label={
+                            <span>I accept the <a href="legal/termsfeed-eula-english.html" target="_blank">Terms and Conditions</a></span>
+                        }
+                    />
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                name={'pp-checkbox'}
+                                id={`pp-checkbox`}
+                                checked={this.state.ppAccepted}
+                                onChange={() =>this.setState( () => ({ppAccepted: !this.state.ppAccepted}) )}
+                                value={""+this.state.ppAccepted}
+                                color={"primary"}
+                            />
+                        }
+                        label={
+                            <span>I have reviewed and I accept the <a href="legal/privacy-policy.html" target="_blank">Privacy Policy</a></span>
+                        }
+                    />
                 </div>
                 <Button
                     color="primary"
