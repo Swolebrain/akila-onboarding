@@ -171,6 +171,7 @@ export async function submitForm(state){
         return;
     }
     const apiBody = buildApiBody(state);
+    apiBody.identity = "endUser";
     try {
         const lambdaResponse = await fetch(lambdaUri, {
             method: 'POST',
@@ -191,15 +192,21 @@ export async function submitForm(state){
 
         if (lambdaResponse.status !== 200) {
             let details = "";
-            lambdaResponseJson.fullAuth0Response = JSON.parse(lambdaResponseJson.fullAuth0Response)
-            details += " - " + lambdaResponseJson.fullAuth0Response.description
+            try {
+                details += " - " + JSON.parse(lambdaResponseJson.fullAuth0Response).details
+            }
+            catch(e){
+                console.log(e);
+                details += " - " + lambdaResponseJson.fullAuth0Response
+            }
             throw new Error("Error response from API gateway" + details);
         }
 
-        let auth0ID = lambdaResponseJson._id || 'manual-reconciliation';
+        let auth0ID = lambdaResponseJson._id;
+        apiBody.identity = 'auth0|'+auth0ID;
 
         delete apiBody.password;
-        // console.log('###APIBODY', JSON.stringify(apiBody));
+        console.log('###APIBODY', JSON.stringify(apiBody));
         const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
             headers: {

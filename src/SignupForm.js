@@ -156,6 +156,7 @@ class SignupForm extends Component {
 
         if (!document.getElementById('pp-checkbox').checked)
             return alert("You must review and acknowledge the Privacy Policy");
+
         const submissionResult = await submitForm(this.state);
         if (submissionResult)
             this.props.history.push('/fitbit');

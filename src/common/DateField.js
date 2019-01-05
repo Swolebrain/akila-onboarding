@@ -81,7 +81,7 @@ class DateField extends React.PureComponent{
                         <MenuItem value={''}></MenuItem>
                         {
                             Array(31).fill('').map((_,i) => i+1).map((day, idx)=>
-                                <MenuItem style={{padding: '2px 4px'}} value={idx ? (""+day) :''} key={idx}>{day}</MenuItem>
+                                <MenuItem style={{padding: '2px 4px'}} value={(idx+1) ? ("" + (idx+1)) :''} key={idx}>{day}</MenuItem>
                             )
                         }
                     </Select>

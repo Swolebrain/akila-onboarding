@@ -22,7 +22,7 @@ export const initialFormState = {
             {label: "Female", selected: false},
         ],
     },
-    ethnicityCode: {
+    ethnicity: {
         label: "Primary Ethnicity",
         type: "radio",
         values: [
