@@ -33,7 +33,6 @@ const MultiSelectField = ({fieldName, label, values, setFormField, setSelectedIn
     </div>
 );
 
-//<label htmlFor={`${fieldName}__opt${idx}`}>{label}</label>
 
 export default MultiSelectField;
 

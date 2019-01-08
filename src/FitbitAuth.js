@@ -32,11 +32,11 @@ class FitbitAuth extends React.Component{
         [fieldName]: value
     }));
     startFitbitAuthFlow = () => {
-        let email = this.state.email;
-        if (!email || email.length ===  0){
-            email = prompt("Enter the email address you used to register for Akila");
+        let {email, password} = this.state;
+        if (!email || email.length ===  0 || !password || password.length < 6){
+            email = prompt("Enter the email address and password you used to register for Akila");
         }
-        getFitbitPermissions(email);
+        getFitbitPermissions(email, password);
     }
     render() {
         return (

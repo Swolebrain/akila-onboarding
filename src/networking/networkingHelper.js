@@ -5,7 +5,7 @@ import {
     lambdaKey,
     lambdaUri,
     FITBIT_REDIRECT_URI,
-    FITBIT_AUTH_URL
+    FITBIT_AUTH_URL, auth0LoginUrl
 } from "../globals";
 
 export function buildApiBody(state){
@@ -164,6 +164,8 @@ export function isValidForm(state){
     return errorFields;
 }
 
+
+
 export async function submitForm(state){
     const formFieldErrors = isValidForm(state);
     if (formFieldErrors.length > 0) {
@@ -202,6 +204,7 @@ export async function submitForm(state){
             throw new Error("Error response from API gateway" + details);
         }
 
+        const token = lambdaResponseJson.loginResult.access_token;
         let auth0ID = lambdaResponseJson._id;
         apiBody.identity = 'auth0|'+auth0ID;
 
@@ -235,9 +238,32 @@ export async function submitForm(state){
     }
 }
 
-export async function getFitbitPermissions(email){
-    const savedUserData = await fetch(apiUrl + '/users/user?email=' + email).then(res => res.json());
-    if (!savedUserData) alert("Error: Please create a user first");
+export async function getFitbitPermissions(email, password){
+    const loginResult = await fetch(auth0LoginUrl, {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+            grant_type: 'password',
+            client_id: 'OXla466wNDEw7Y1JZZXE6cwRV5GCI6HQ',
+            audience: 'https://api.akila.ai/',
+            username: email,
+            password,
+            realm: "Username-Password-Authentication",
+            scope: 'profile email',
+        })
+    }).then(res=>res.json());
+
+    console.log(loginResult);
+
+    // const savedUserData = await fetch(apiUrl + '/users/0', {
+    //     headers: {
+    //         Authorization: 'Bearer ' + loginResult.access_token
+    //     }
+    // }).then(res => res.json());
+    //
+    // console.log(savedUserData);
+    //
+    // if (!savedUserData) alert("Error: Please create a user first");
 
     const body = {
         userEmail: email,
@@ -245,10 +271,11 @@ export async function getFitbitPermissions(email){
     };
     console.log(FITBIT_AUTH_URL+'/start');
     console.log(body);
-    return fetch(FITBIT_AUTH_URL + '/start/' + savedUserData.id + '?' + querystring.stringify(body), {
+    return fetch(FITBIT_AUTH_URL + '/start/' + 0 + '?' + querystring.stringify(body), {
         headers: {
             'Content-Type': 'application/json',
-            Accept: 'application/json'
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + loginResult.access_token
         },
         method: 'POST',
     })
