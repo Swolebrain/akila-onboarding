@@ -7,6 +7,7 @@ import {
     FITBIT_REDIRECT_URI,
     FITBIT_AUTH_URL, auth0LoginUrl
 } from "../globals";
+const jwt = require('jsonwebtoken');
 
 export function buildApiBody(state){
     const {form} = state;
@@ -190,7 +191,7 @@ export async function submitForm(state){
             })
         });
         const lambdaResponseJson = await lambdaResponse.json();
-        console.log(lambdaResponseJson);
+        console.log(lambdaResponseJson); //either has an _id field or already exists. if it exists i need it to send id as well
 
         if (lambdaResponse.status !== 200) {
             let details = "";
@@ -204,22 +205,21 @@ export async function submitForm(state){
             throw new Error("Error response from API gateway" + details);
         }
 
-        const token = lambdaResponseJson.loginResult.access_token;
-        let auth0ID = lambdaResponseJson._id;
-        apiBody.identity = 'auth0|'+auth0ID;
+        // let auth0ID = lambdaResponseJson._id;
+        // apiBody.identity = 'auth0|'+auth0ID;
+        let tokenData = jwt.decode(lambdaResponseJson.loginResult.access_token);
+        apiBody.identity = tokenData.sub;
 
         delete apiBody.password;
-        console.log('###APIBODY', JSON.stringify(apiBody));
+        console.log('###APIBODY', apiBody);
         const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
-                'Accept': 'application/json'
+                'Accept': 'application/json',
+                Authorization: 'Bearer ' + lambdaResponseJson.loginResult.access_token
             },
-            body: JSON.stringify({
-                ...apiBody,
-                auth0ID
-            })
+            body: JSON.stringify(apiBody)
         });
 
         if (akilaApiResponse.status !== 201){
