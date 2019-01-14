@@ -211,6 +211,7 @@ export async function submitForm(state){
         apiBody.identity = tokenData.sub;
 
         delete apiBody.password;
+        console.log(apiBody.identity);
         console.log('###APIBODY', apiBody);
         const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
