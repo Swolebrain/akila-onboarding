@@ -18,8 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "deploy": "yarn build && scp -r build/* akilaai:/var/www/html/onboarding",
-    "deploy:dev": "yarn build && scp -r build/* akilaai:/var/www/html/onboarding-dev"
+    "deploy": "yarn build && scp -r build/* akilaai:/var/www/html/onboarding-dev"
   },
   "homepage": "http://www.akila.ai/onboarding-dev"
 }

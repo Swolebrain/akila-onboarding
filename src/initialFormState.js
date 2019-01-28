@@ -62,11 +62,11 @@ export const initialFormState = {
         value: "",
         type: "number"
     },
-    A1CLevels: {
+    a1cLevel: {
         label: "A1C Levels",
         submissionKey: "healthBehavior",
         value: "",
-        type: "text"
+        type: "number"
     },
     medicalHistory: {
         label: "History of Medical Conditions (check any that apply)",

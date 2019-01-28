@@ -26,7 +26,7 @@ export function buildApiBody(state){
         }
     };
     state.formKeys.forEach(formKey=>{
-        if (formKey === 'passwordConf' || formKey ==='A1CLevels') return;
+        if (formKey === 'passwordConf') return;
         let formValue = getValue(formKey);
         if (typeof formValue === 'undefined') formValue = null;
         if (!form[formKey].submissionKey){
@@ -256,15 +256,6 @@ export async function getFitbitPermissions(email, password){
 
     console.log(loginResult);
 
-    // const savedUserData = await fetch(apiUrl + '/users/0', {
-    //     headers: {
-    //         Authorization: 'Bearer ' + loginResult.access_token
-    //     }
-    // }).then(res => res.json());
-    //
-    // console.log(savedUserData);
-    //
-    // if (!savedUserData) alert("Error: Please create a user first");
 
     const body = {
         userEmail: email,
