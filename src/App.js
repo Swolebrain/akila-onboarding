@@ -15,8 +15,9 @@ const theme = createMuiTheme({
     },
 });
 
-const baseName = window.location.href.indexOf("localhost") === -1 ?
-    "/onboarding" : "/";
+let baseName = '/';
+if (window.location.href.indexOf("localhost") === -1 && window.location.href.indexOf("-dev") === -1) baseName = '/onboarding';
+if (window.location.href.indexOf("localhost") === -1 && window.location.href.indexOf("-dev") !== -1) baseName = '/onboarding-dev';
 
 
 class App extends Component {
