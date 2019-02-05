@@ -255,6 +255,7 @@ export async function getFitbitPermissions(email, password){
     }).then(res=>res.json());
 
     console.log(loginResult);
+    localStorage.setItem("accessToken", loginResult.access_token);
 
 
     const body = {
@@ -282,6 +283,46 @@ export async function getFitbitPermissions(email, password){
             window.location = res.uri
         })
         .catch(err=>console.log(err.message))
+}
+
+export async function finishFitbitAuthFlow(){
+    const token = localStorage.getItem("accessToken");
+    if (!token) return alert ("Error! Not authenticated");
+
+    const qStr = window.location.search;
+    if (!qStr || qStr.length <= 1) return;
+
+    const params = qStr.slice(1).split("&");
+    if (params.length !== 2) return;
+
+    const payload = {};
+    params.forEach(function(param){
+        const kv = param.split("=");
+        payload[kv[0]] = kv[1];
+    });
+    console.log(payload);
+
+    return fetch("https://test.akila.ai:8181/wearables-integrator/fitbit/auth" + '/complete/0' , {
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        method: 'POST',
+        body: JSON.stringify(payload)
+    })
+        .then(res=>{
+            if (res.status === 200) return res.json();
+            console.log('failure...', res);
+            throw res;
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err=>{
+            alert('there was a problem');
+            console.log(err);
+        });
 }
 
 

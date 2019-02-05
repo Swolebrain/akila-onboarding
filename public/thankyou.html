@@ -123,16 +123,47 @@
         <p>Make sure you log in with the same email and password combination you picked during the signup progess.</p>
     </div>
 
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <script>
+        (function(){
+            const token = localStorage.getItem("accessToken");
+            if (!token) return alert ("Error! Not authenticated");
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+            const qStr = window.location.search;
+            if (!qStr || qStr.length <= 1) return;
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
--->
+            const params = qStr.slice(1).split("&");
+            if (params.length !== 2) return;
+
+            const payload = {};
+            params.forEach(function(param){
+               const kv = param.split("=");
+               payload[kv[0]] = kv[1];
+            });
+            console.log(payload);
+
+            fetch("https://test.akila.ai:8181/wearables-integrator/fitbit/auth" + '/complete/0' , {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Accept: 'application/json',
+                    Authorization: 'Bearer ' + token
+                },
+                method: 'POST',
+                body: JSON.stringify(payload)
+            })
+                .then(res=>{
+                    if (res.status === 200) return res.json();
+                    console.log('failure...', res);
+                    throw res;
+                })
+                .then(res => {
+                    console.log(res);
+                })
+                .catch(err=>{
+                    alert('there was a problem');
+                    console.log(err);
+                });
+        })();
+    </script>
 
 </body>
 </html>
