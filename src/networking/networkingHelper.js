@@ -15,6 +15,7 @@ export function buildApiBody(state){
         // isAnonymous: true,
         firstName: 'dummy',
         lastName: 'dummyToo',
+        phoneNumber: '123-123-1234',
         healthBehavior: {
             medicalHistory: {},
             exercisePatterns: {}
@@ -50,6 +51,7 @@ export function buildApiBody(state){
         }
 
     });
+
     return apiBody;
 
     function getValue(formKey){
@@ -88,6 +90,12 @@ export function buildApiBody(state){
                     value: getNumericHeight(form[formKey].value),
                     unit: 'MT'
                 };
+            }
+            case 'dateOfBirth': {
+                const currentYear = new Date().getFullYear();
+                const age = Math.round(Number(form[formKey].value));
+                console.log(form[formKey], age);
+                return `${currentYear-age}-01-01`
             }
             //now handle things according to their type
             default: {
@@ -175,6 +183,7 @@ export async function submitForm(state){
     }
     const apiBody = buildApiBody(state);
     apiBody.identity = "endUser";
+    apiBody.emailAddress = apiBody.email;
     try {
         const lambdaResponse = await fetch(lambdaUri, {
             method: 'POST',
@@ -211,7 +220,6 @@ export async function submitForm(state){
         apiBody.identity = tokenData.sub;
 
         delete apiBody.password;
-        console.log(apiBody.identity);
         console.log('###APIBODY', apiBody);
         const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
@@ -312,8 +320,8 @@ export async function finishFitbitAuthFlow(){
         body: JSON.stringify(payload)
     })
         .then(res=>{
+            console.log(res);
             if (res.status === 200) return res.json();
-            console.log('failure...', res);
             throw res;
         })
         .then(res => {

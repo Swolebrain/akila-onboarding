@@ -192,7 +192,7 @@ class SignupForm extends Component {
                             />
                         }
                         label={
-                            <span>I accept the <a href="legal/termsfeed-eula-english.html" target="_blank">Terms and Conditions</a></span>
+                            <span>I accept the <a href={process.env.PUBLIC_URL+"/legal/termsfeed-eula-english.html"} target="_blank">Terms and Conditions</a></span>
                         }
                     />
                     <FormControlLabel
@@ -207,7 +207,7 @@ class SignupForm extends Component {
                             />
                         }
                         label={
-                            <span>I have reviewed and I accept the <a href="legal/privacy-policy.html" target="_blank">Privacy Policy</a></span>
+                            <span>I have reviewed and I accept the <a href={process.env.PUBLIC_URL + "/legal/privacy-policy.html"} target="_blank">Privacy Policy</a></span>
                         }
                     />
                 </div>

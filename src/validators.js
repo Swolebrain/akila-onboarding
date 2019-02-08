@@ -52,7 +52,7 @@ const validationMappings = {
     passwordConf: str => str === document.getElementById('password').value ? true : "Passwords must match.",
     height: heightValidator,
     weight: numericValidator,
-    dateOfBirth: dobValidator,
+    dateOfBirth: numericValidator,
     lastCheckUp: dateValidator,
     phoneNumber: phoneNumberValidator,
     A1CLevels: numericFloatValidator,
