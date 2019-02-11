@@ -167,7 +167,7 @@ class SignupForm extends Component {
             <React.Fragment>
                 <h2>Participant Signup</h2>
                 <p style={{maxWidth: 700, margin: '0 auto', lineHeight: '150%'}}>
-                    Please provide all the requested information. If you've already created an account and need to provide Akila with access to your Fitbit data, <Link to="/fitbit">click here</Link>
+                    Please provide all the requested information. It is recommended that you use a temporary email for Akila and Fitbit accounts for participation in the study. If you've already created an account and need to provide Akila with access to your Fitbit data, <Link to="/fitbit">click here</Link>
                 </p>
                 <div className="App" onClick={this.unSelect}>
                     {
