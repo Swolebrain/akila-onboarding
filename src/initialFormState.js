@@ -35,15 +35,15 @@ export const initialFormState = {
         ],
     },
     dateOfBirth: {
-        label: "Date of Birth",
-        value: null,
-        type: "date"
-    },
-    phoneNumber: {
-        label: "Phone Number",
+        label: "Age",
         value: "",
-        type: "text"
+        type: "number"
     },
+    // phoneNumber: {
+    //     label: "Phone Number",
+    //     value: "",
+    //     type: "text"
+    // },
     lastCheckUp: {
         label: "Approx date of last checkup",
         submissionKey: "healthBehavior",

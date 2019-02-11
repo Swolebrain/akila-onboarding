@@ -15,6 +15,7 @@ export function buildApiBody(state){
         // isAnonymous: true,
         firstName: 'dummy',
         lastName: 'dummyToo',
+        phoneNumber: '123-123-1234',
         healthBehavior: {
             medicalHistory: {},
             exercisePatterns: {}
@@ -50,6 +51,7 @@ export function buildApiBody(state){
         }
 
     });
+
     return apiBody;
 
     function getValue(formKey){
@@ -88,6 +90,12 @@ export function buildApiBody(state){
                     value: getNumericHeight(form[formKey].value),
                     unit: 'MT'
                 };
+            }
+            case 'dateOfBirth': {
+                const currentYear = new Date().getFullYear();
+                const age = Math.round(Number(form[formKey].value));
+                console.log(form[formKey], age);
+                return `${currentYear-age}-01-01`
             }
             //now handle things according to their type
             default: {
@@ -175,6 +183,7 @@ export async function submitForm(state){
     }
     const apiBody = buildApiBody(state);
     apiBody.identity = "endUser";
+    apiBody.emailAddress = apiBody.email;
     try {
         const lambdaResponse = await fetch(lambdaUri, {
             method: 'POST',
@@ -211,7 +220,6 @@ export async function submitForm(state){
         apiBody.identity = tokenData.sub;
 
         delete apiBody.password;
-        console.log(apiBody.identity);
         console.log('###APIBODY', apiBody);
         const akilaApiResponse = await fetch(apiUrl + '/users', {
             method: 'POST',
@@ -255,6 +263,7 @@ export async function getFitbitPermissions(email, password){
     }).then(res=>res.json());
 
     console.log(loginResult);
+    localStorage.setItem("accessToken", loginResult.access_token);
 
 
     const body = {
@@ -282,6 +291,46 @@ export async function getFitbitPermissions(email, password){
             window.location = res.uri
         })
         .catch(err=>console.log(err.message))
+}
+
+export async function finishFitbitAuthFlow(){
+    const token = localStorage.getItem("accessToken");
+    if (!token) return alert ("Error! Not authenticated");
+
+    const qStr = window.location.search;
+    if (!qStr || qStr.length <= 1) return;
+
+    const params = qStr.slice(1).split("&");
+    if (params.length !== 2) return;
+
+    const payload = {};
+    params.forEach(function(param){
+        const kv = param.split("=");
+        payload[kv[0]] = kv[1];
+    });
+    console.log(payload);
+
+    return fetch("https://test.akila.ai:8181/wearables-integrator/fitbit/auth" + '/complete/0' , {
+        headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: 'Bearer ' + token
+        },
+        method: 'POST',
+        body: JSON.stringify(payload)
+    })
+        .then(res=>{
+            console.log(res);
+            if (res.status === 200) return res.json();
+            throw res;
+        })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err=>{
+            alert('there was a problem');
+            console.log(err);
+        });
 }
 
 
