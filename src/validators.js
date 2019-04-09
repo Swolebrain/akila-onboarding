@@ -53,7 +53,7 @@ const validationMappings = {
     height: heightValidator,
     weight: numericValidator,
     dateOfBirth: numericValidator,
-    lastCheckUp: dateValidator,
+    lastCheckup: dateValidator,
     phoneNumber: phoneNumberValidator,
     A1CLevels: numericFloatValidator,
     floorsPerDay: numericValidator,
