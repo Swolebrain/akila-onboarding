@@ -310,7 +310,12 @@ export async function finishFitbitAuthFlow(){
     });
     console.log(payload);
 
-    return fetch("https://test.akila.ai:8181/wearables-integrator/fitbit/auth" + '/complete/0' , {
+    const isDev = window.location.href.indexOf('-dev') !== -1 ||  window.location.href.indexOf('localhost') !== -1;
+
+    let apiUrl = "https://prod.akila.ai/wearables-integrator/fitbit/auth";
+    if (isDev) apiUrl = "https://test.akila.ai:8181/wearables-integrator/fitbit/auth";
+
+    return fetch(apiUrl + '/complete/0' , {
         headers: {
             'Content-Type': 'application/json',
             Accept: 'application/json',
