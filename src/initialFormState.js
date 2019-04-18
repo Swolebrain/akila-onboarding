@@ -44,7 +44,7 @@ export const initialFormState = {
     //     value: "",
     //     type: "text"
     // },
-    lastCheckUp: {
+    lastCheckup: {
         label: "Approx date of last checkup",
         submissionKey: "healthBehavior",
         value: null,

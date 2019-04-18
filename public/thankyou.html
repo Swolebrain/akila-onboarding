@@ -151,15 +151,19 @@
                 body: JSON.stringify(payload)
             })
                 .then(res=>{
-                    if (res.status === 200) return res.json();
-                    console.log('failure...', res);
-                    throw res;
+                    if (res.status < 200 || res.status > 299){
+                        alert("There was a problem");
+                        console.log('res', res);
+                    }
+
+
+                    return res.text();
                 })
                 .then(res => {
                     console.log(res);
                 })
                 .catch(err=>{
-                    alert('there was a problem');
+                    // alert('there was a problem');
                     console.log(err);
                 });
         })();
