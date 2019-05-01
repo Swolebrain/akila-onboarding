@@ -192,7 +192,8 @@ class SignupForm extends Component {
                             />
                         }
                         label={
-                            <span>I accept the <a href={process.env.PUBLIC_URL+"/legal/termsfeed-eula-english.html"} target="_blank">Terms and Conditions</a></span>
+                            <span>I accept the
+                                <a href={process.env.PUBLIC_URL+"/legal/termsfeed-eula-english.html"} target="_blank">Terms and Conditions and EULA</a> </span>
                         }
                     />
                     <FormControlLabel
