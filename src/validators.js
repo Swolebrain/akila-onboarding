@@ -10,7 +10,7 @@ function stringValidator(str){
 }
 
 function heightValidator(str){
-    const valid = str.match(/^\d'\d{1,2}$/);
+    const valid = str.match(/^\d.\d{1,2}$/);
     return valid || "Please enter your height in feet, eg. 6'0";
 }
 

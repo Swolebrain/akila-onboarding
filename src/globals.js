@@ -8,10 +8,10 @@ if (isDev) apiUrl = "https://test.akila.ai:8181/health-services/api"
 
 let FITBIT_REDIRECT_URI = window.location.href.indexOf('localhost') > -1 ?
     "http://localhost:3000/thankyou.html" :
-    "https://www.akila.ai/onboarding/thankyou.html";
+    "https://akila.ai/onboarding/thankyou.html";
 if (isDev) FITBIT_REDIRECT_URI = window.location.href.indexOf('localhost') > -1 ?
     "http://localhost:3000/thankyou.html" :
-    "https://www.akila.ai/onboarding-dev/thankyou.html";
+    "https://akila.ai/onboarding-dev/thankyou.html";
 
 let FITBIT_AUTH_URL = "https://prod.akila.ai/wearables-integrator/fitbit/auth";
 if (isDev) FITBIT_AUTH_URL = "https://test.akila.ai:8181/wearables-integrator/fitbit/auth";
