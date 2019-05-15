@@ -16,7 +16,6 @@ if (isDev) FITBIT_REDIRECT_URI = window.location.href.indexOf('localhost') > -1 
 let FITBIT_AUTH_URL = "https://prod.akila.ai/wearables-integrator/fitbit/auth";
 if (isDev) FITBIT_AUTH_URL = "https://test.akila.ai:8181/wearables-integrator/fitbit/auth";
 
-
 export {
     apiUrl,
     auth0LoginUrl,
