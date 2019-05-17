@@ -21,7 +21,8 @@ class SignupForm extends Component {
         selectedInput: null,
         currentPage: 1,
         tncAccepted: false,
-        ppAccepted: false
+        ppAccepted: false,
+        submitting: false
     };
     componentDidUpdate(prevProps, prevState, snapshot) {
         //don't save a password locally x.x
@@ -151,11 +152,13 @@ class SignupForm extends Component {
     };
 
     submitForm = async () => {
+        if (this.state.submitting) return;
         if (!document.getElementById('tnc-checkbox').checked)
             return alert("You must accept the terms and conditions");
 
         if (!document.getElementById('pp-checkbox').checked)
             return alert("You must review and acknowledge the Privacy Policy");
+        this.setState({submitting: true});
 
         const submissionResult = await submitForm(this.state);
         if (submissionResult)
@@ -222,7 +225,7 @@ class SignupForm extends Component {
                     Reset Form
                 </Button>
                 <Button
-                    onClick={this.submitForm}
+                    onClick={this.state.submitting && this.submitForm}
                     variant="contained"
                     style={{color:'white', fontWeight:"bold", padding: "0.5rem 2rem", fontSize: "1rem"}}
                     color={"primary"} >
