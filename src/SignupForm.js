@@ -97,6 +97,7 @@ class SignupForm extends Component {
         })
     }
     setFormField = (fieldName, valueSet) => this.setState(state => {
+        if (fieldName === "email" && typeof valueSet.value === "string") valueSet.value = valueSet.value.toLowerCase();
         const newState = {
             ...state,
             form: {
@@ -163,6 +164,8 @@ class SignupForm extends Component {
         const submissionResult = await submitForm(this.state);
         if (submissionResult)
             this.props.history.push('/fitbit');
+
+        this.setState({submitting: false});
     };
 
     render() {
@@ -225,7 +228,7 @@ class SignupForm extends Component {
                     Reset Form
                 </Button>
                 <Button
-                    onClick={this.state.submitting && this.submitForm}
+                    onClick={!this.state.submitting && this.submitForm}
                     variant="contained"
                     style={{color:'white', fontWeight:"bold", padding: "0.5rem 2rem", fontSize: "1rem"}}
                     color={"primary"} >

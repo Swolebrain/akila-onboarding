@@ -183,7 +183,7 @@ export async function submitForm(state){
     }
     const apiBody = buildApiBody(state);
     apiBody.identity = "endUser";
-    apiBody.emailAddress = apiBody.email;
+    apiBody.emailAddress = apiBody.email.toLowerCase();
     try {
         const lambdaResponse = await fetch(lambdaUri, {
             method: 'POST',
@@ -345,6 +345,6 @@ function formatDate(dateStr){
 }
 
 function getNumericHeight(heightStr){
-    const height = heightStr.split("'").map(Number);
+    const height = heightStr.split(/[^0-9]/).map(Number);
     return Math.round((height[0]*12*2.54 + height[1]*2.54))/100;
 }
